@@ -1,0 +1,18 @@
+﻿@model Test
+@{
+}
+
+<div class="container">
+    <h1>Text and Input Example</h1>
+
+    <form asp-action="StartTest" asp-controller="Test">
+        <div class="form-group">
+            <label for="name">@Model.Title</label>
+            <input id="id" name="id" value="@Model.Id" hidden />
+            <input type="text" class="form-control" id="personalNumber" name="personalNumber" placeholder="შეიყვანე პირადი ნომერი">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <!-- Any other content or elements you want to include -->
+</div>

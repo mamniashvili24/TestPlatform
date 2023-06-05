@@ -1,0 +1,42 @@
+﻿@using TestPlatform.Models.ViewModel;
+@model StartTestModel
+@{
+}
+<form asp-action="CountResult" asp-controller="Test" id="myForm">
+    <input id="personalNumber" name="personalNumber" value="@Model.PersonalNumber" hidden />
+    <input id="id" name="id" value="@Model.Test.Id" hidden />
+    <input id="answersString" name="answersString" value="" hidden/>
+    @foreach (var quetion in Model.Test.Quetions)
+    {
+        <p>@quetion.Text</p>
+        @foreach (var answer in quetion.Answers)
+        {
+            <div class="form-group">
+                <input type="radio" name="answers-@answer.Id" value="@answer.Id:@quetion.Id" id="test-answer-@answer.Id" class="form-check-input">
+                <label for="color-red" class="form-check-label">@answer.Text</label>
+            </div>
+        }
+    }
+    <button type="button" class="btn btn-primary" onclick="handleClick()">Submit</button>
+</form>
+
+<script>
+    function handleClick() {
+        // Perform actions or run code here
+        var radios = document.querySelectorAll('input[type="radio"]');
+
+        var selectedRadios = [];
+
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                selectedRadios.push(radios[i].value);
+            }
+        }
+
+        var input = document.getElementById('answersString');
+        input.value = selectedRadios;
+
+        var form = document.getElementById('myForm');
+        form.submit();
+    }
+</script>

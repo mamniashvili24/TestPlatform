@@ -1,8 +1,13 @@
-﻿@{
+﻿@using TestPlatform.Models;x
+
+@model IEnumerable<Test>
+@{
     ViewData["Title"] = "Home Page";
+    var count = 0;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@foreach(var test in Model)
+{
+    count++;
+    <a href="Test/GetTest/@test.Id"><h3>@count. @test.Title</h3></a>
+}

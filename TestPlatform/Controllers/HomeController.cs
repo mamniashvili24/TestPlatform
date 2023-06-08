@@ -1,25 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using TestPlatform.Models;
+using TestPlatform.Database;
 
 namespace TestPlatform.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly TestPlatformContext _db;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(TestPlatformContext db)
     {
-        _logger = logger;
+        _db = db;
     }
 
     public IActionResult Index()
     {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
+        var test = _db.Tests;
+        return View(test);
     }
 }

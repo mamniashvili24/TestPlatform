@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using TestPlatform.Database;
+using TestPlatform.Migrations;
 using TestPlatform.Models;
 using TestPlatform.Models.ViewModel;
 
@@ -18,12 +20,21 @@ public class TestController : Controller
     public async Task<IActionResult> GetTest(int id)
     { 
         var test = await _db.Tests.FindAsync(id);
+        test ??= await _db.Tests.FirstOrDefaultAsync();
+
         return View(test);
     }
 
     public async Task<IActionResult> StartTest(int id, string personalNumber)
     {
+        bool isValid = Regex.IsMatch(personalNumber, @"^\d{11}$");
         var test = await _db.Tests.FindAsync(id);
+        if (!isValid)
+        {
+            test.Error = "არასწორი ფორმატი პირადი ნომრის!";
+
+            return View("GetTest", test);
+        }
         var result = new Result
         {
             Test = test,
@@ -63,8 +74,6 @@ public class TestController : Controller
 
         result.CorrectAnswers = correctAnswers;
         _db.SaveChanges();
-
-
 
         return View(correctAnswers);
     }

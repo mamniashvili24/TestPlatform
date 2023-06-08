@@ -3,7 +3,10 @@
 }
 
 <div class="container">
-    <h1>Text and Input Example</h1>
+    <h1>ტესტის დაწყება</h1>
+    <hr />
+    <h1 style="color: red">@Model.Error</h1>
+    <hr />
 
     <form asp-action="StartTest" asp-controller="Test">
         <div class="form-group">
@@ -12,7 +15,7 @@
             <input type="text" class="form-control" id="personalNumber" name="personalNumber" placeholder="შეიყვანე პირადი ნომერი">
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">დაწყება</button>
     </form>
     <!-- Any other content or elements you want to include -->
 </div>

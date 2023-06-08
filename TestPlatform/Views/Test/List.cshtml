@@ -1,0 +1,15 @@
+﻿@using TestPlatform.Models;x
+
+@model IEnumerable<Test>
+@{
+    ViewData["Title"] = "Home Page";
+    var count = 0;
+}
+
+<a  href="/Test/Create">შექმნა</a>
+
+@foreach (var test in Model)
+{
+    count++;
+    <a href="/Test/Edit/@test.Id"><h3>@count. @test.Title</h3></a>
+}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestPlatform.Database;
+using TestPlatform.Models;
 
 namespace TestPlatform.Controllers;
 
@@ -14,7 +15,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var test = _db.Tests;
-        return View(test);
+        return View(_db.Tests);
     }
 }

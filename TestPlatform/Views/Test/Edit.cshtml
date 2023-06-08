@@ -1,0 +1,22 @@
+﻿@model Test
+@{
+    var count = 0;
+}
+<form asp-action="Edit" asp-controller="Test">
+    <div class="container">
+        <h1>ტესტის რედაქტირება</h1>
+        <div class="form-group">
+            <input name="id" value="@Model.Id" hidden />
+            <label for="Title">ტესტის სათაური:</label>
+            <input type="text" class="form-control" id="Title" name="Title" value="@Model.Title">
+        </div>
+        <a href="/Test/AddQuetion/@Model.Id">კითხვის დამატება</a>
+        <br />
+        @foreach (var quetion in Model.Quetions)
+        {
+            count++;
+            <a href="/Test/EditQuetion/@quetion.Id"><h3>@count. @quetion.Text</h3></a>
+        }
+        <button type="submit" class="btn btn-primary" id="saveButton">შენახვა</button>
+    </div>
+</form>

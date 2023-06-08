@@ -17,6 +17,8 @@ public class TestController : Controller
         _db = db;
     }
 
+    #region Get Test Logic
+
     public async Task<IActionResult> GetTest(int id)
     { 
         var test = await _db.Tests.FindAsync(id);
@@ -78,7 +80,7 @@ public class TestController : Controller
         return View(correctAnswers);
     }
 
-    static Dictionary<int, int> ConvertStringToDictionary(string input)
+    public static Dictionary<int, int> ConvertStringToDictionary(string input)
     {
         var dictionary = new Dictionary<int, int>();
         string[] keyValuePairs = input.Split(',');
@@ -96,4 +98,101 @@ public class TestController : Controller
 
         return dictionary;
     }
+
+    #endregion
+
+    #region Create Test
+
+    public IActionResult List()
+    {
+        var test = _db.Tests;
+        return View(test);
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(Test test)
+    {
+        _db.Add(test);
+        _db.SaveChanges();
+
+        return RedirectToAction("Edit", new { id = test.Id });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var test = await _db.Tests.FindAsync(id);
+
+        return View(test);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Test test)
+    {
+        var tempTest = await _db.Tests.FindAsync(test.Id);
+        tempTest.Title = test.Title;
+        _db.SaveChanges();
+
+        return RedirectToAction("Edit", new { id = test.Id });
+    }
+
+    [HttpGet]
+    public IActionResult AddQuetion(int id)
+    {
+        return View(id);
+    }
+
+    [HttpPost]
+    public IActionResult AddQuetion(string question, string answers, int correctAnswer, int testId)
+    {
+        var answersList = answers.Split(',').ToList() ?? new List<string>();
+        var quetion = new Quetion
+        {
+            Text = question,
+            Answers = answersList.Select(o => new Answer
+            {
+                Text = o
+            }).ToList()
+        };
+        quetion.Answers[correctAnswer - 1].IsCorrect = true;
+        var test = _db.Tests.Find(testId);
+        test.Quetions.Add(quetion);
+        _db.SaveChanges();
+
+        return RedirectToAction("EditQuetion", new { id = quetion.Id });
+    }
+
+    [HttpGet]
+    public IActionResult EditQuetion(int id)
+    {
+        var quetion = _db.Quetions.Find(id);
+
+        return View(quetion);
+    }
+
+    [HttpPost]
+    public IActionResult EditQuetion(string question, string answers, int correctAnswer, int id)
+    {
+        var answersList = answers.Split(',').ToList() ?? new List<string>();
+
+        var quetion = _db.Quetions.Find(id);
+        quetion.Text = question;
+        quetion.Answers.Clear();
+        quetion.Answers = answersList.Take(4).Select(o => new Answer
+        {
+            Text = o
+        }).ToList();
+        quetion.Answers[correctAnswer - 1].IsCorrect = true;
+        _db.SaveChanges();
+
+        return View(quetion);
+    }
+
+    #endregion
 }

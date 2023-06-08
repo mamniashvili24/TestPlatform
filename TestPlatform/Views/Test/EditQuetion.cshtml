@@ -1,0 +1,51 @@
+﻿@model Quetion
+@{
+    var counter = 0;
+}
+<form asp-action="EditQuetion" asp-controller="Test" id="myForm">
+    <div class="container">
+        <h1>კითხვის დამატება</h1>
+        <div class="form-group">
+            <label for="question">კითხვა:</label>
+            <input type="text name="Text" class="form-control" id="question" value="@Model.Text">
+        </div>
+        <h3>სავარაუდო პასუხები:</h3>
+        @foreach (var answer in Model.Answers)
+        {
+            counter++;
+            <div class="form-group">
+                <label for="answer1">პასუხი @counter:</label>
+                <input type="text" class="form-control" id="answer@counter" value="@answer.Text">
+                <input type="radio" name="correctAnswer" value="@counter" @(answer.IsCorrect ? "checked" : "")> სწორია
+            </div>
+        }
+
+        <input name="question" id="questionInput" hidden />
+        <input name="answers" id="answersInput" hidden />
+        <input name="correctAnswer" id="correctAnswerInput" hidden />
+        <input name="id" value="@Model.Id" hidden/>
+        <button type="submit" class="btn btn-primary" id="saveButton" onclick="handleClick()">Save</button>
+    </div>
+</form>
+
+<script>
+    function handleClick() {
+        var question = document.getElementById('question').value;
+        var answers = [];
+        var inputs = document.querySelectorAll('input[type="text"]');
+        for (var i = 0; i < inputs.length; i++) {
+            answers.push(inputs[i].value);
+        }
+        var correctAnswer = document.querySelector('input[name="correctAnswer"]:checked').value;
+
+
+        var questionInput = document.getElementById('questionInput');
+        questionInput.value = question;
+
+        var answersInput = document.getElementById('answersInput');
+        answersInput.value = answers;
+
+        var correctAnswerInput = document.getElementById('correctAnswerInput');
+        correctAnswerInput.value = correctAnswer;
+    }
+</script>

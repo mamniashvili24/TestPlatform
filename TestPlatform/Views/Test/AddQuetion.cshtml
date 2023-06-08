@@ -1,0 +1,59 @@
+﻿@model int
+<form asp-action="AddQuetion" asp-controller="Test" id="myForm">
+    <div class="container">
+        <h1>კითხვის დამატება</h1>
+        <div class="form-group">
+            <label for="question">კითხვა:</label>
+            <input type="text name="Text" class="form-control" id="question">
+        </div>
+        <h3>სავარაუდო პასუხები:</h3>
+        <div class="form-group">
+            <label for="answer1">პასუხი 1:</label>
+            <input type="text" class="form-control" id="answer1">
+            <input type="radio" name="correctAnswer" value="1"> სწორია
+        </div>
+        <div class="form-group">
+            <label for="answer2">პასუხი 2:</label>
+            <input type="text" class="form-control" id="answer2">
+            <input type="radio" name="correctAnswer" value="2"> სწორია
+        </div>
+        <div class="form-group">
+            <label for="answer3">პასუხი 3:</label>
+            <input type="text" class="form-control" id="answer3">
+            <input type="radio" name="correctAnswer" value="3"> სწორია
+        </div>
+        <div class="form-group">
+            <label for="answer4">პასუხი 4:</label>
+            <input type="text" class="form-control" id="answer4">
+            <input type="radio" name="correctAnswer" value="4"> სწორია
+        </div>
+
+        <input name="question" id="questionInput" hidden />
+        <input name="answers" id="answersInput" hidden />
+        <input name="correctAnswer" id="correctAnswerInput" hidden />
+        <input name="testId" value="@Model" hidden/>
+        <button type="submit" class="btn btn-primary" id="saveButton" onclick="handleClick()">Save</button>
+    </div>
+</form>
+
+<script>
+    function handleClick() {
+        var question = document.getElementById('question').value;
+        var answers = [];
+        var inputs = document.querySelectorAll('input[type="text"]');
+        for (var i = 0; i < inputs.length; i++) {
+            answers.push(inputs[i].value);
+        }
+        var correctAnswer = document.querySelector('input[name="correctAnswer"]:checked').value;
+
+
+        var questionInput = document.getElementById('questionInput');
+        questionInput.value = question;
+
+        var answersInput = document.getElementById('answersInput');
+        answersInput.value = answers;
+
+        var correctAnswerInput = document.getElementById('correctAnswerInput');
+        correctAnswerInput.value = correctAnswer;
+    }
+</script>

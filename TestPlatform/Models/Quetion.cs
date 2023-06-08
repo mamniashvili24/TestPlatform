@@ -1,4 +1,6 @@
-﻿namespace TestPlatform.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TestPlatform.Models;
 
 public class Quetion
 {
